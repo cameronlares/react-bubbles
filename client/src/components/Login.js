@@ -28,8 +28,8 @@ const Login = () => {
     e.preventDefault();
     axios
       .post("http://localhost:5000/api/login", {
-        username: "Lambda School",
-        password: "i<3Lambd4"
+        username: 'Lambda School',
+        password: 'i<3Lambd4'
       })
       .then(res => {
         console.log(res.data.payload)

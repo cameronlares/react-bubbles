@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
 import axios from "axios";
 import { useLocation, useParams, useHistory } from "react-router-dom";
+import { axiosWithAuth } from '../components/axiosAuth';
 
 const initialColor = {
   color: "",
@@ -21,18 +22,7 @@ const ColorList = ({ colors, updateColors }) => {
     setColorToEdit(color);
   };
 
-  useEffect(() => {
-    if (location.state) {
-      setColorToEdit(location.state);
-    } else {
-      // make api request for item data
-      // "/itemById/:id"
-      axios
-        .get(`http://localhost:5000/api/colors/${params.id}`)
-        .then(res => setColorToEdit(res.data))
-        .catch(err => console.log(err));
-    }
-  }, [location]);
+
 
 
   const saveEdit = e => {
@@ -41,12 +31,12 @@ const ColorList = ({ colors, updateColors }) => {
     // think about where will you get the id from...
     // where is is saved right now?
 
-    axios
+    axiosWithAuth()
     .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
     .then(res => {
       // res.data ==> full array with updated item
       setColorToEdit(res.data);
-      push(`/`);
+      push('/bubble-page');
       console.log(res.data)
     })
     .catch(err => console.log(err));
@@ -54,13 +44,14 @@ const ColorList = ({ colors, updateColors }) => {
 
   };
 
+
   const deleteColor = color => {
     // make a delete request to delete this color
   
-    axios
+    axiosWithAuth()
     .delete(`http://localhost:5000/api/colors/${color.id}`)
     .then((res) => {
-     push("/");
+     push("/bubble-page");
       setEditing(res.data);
       console.log(res.data)
     })
