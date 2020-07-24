@@ -8,37 +8,37 @@ const Login = () => {
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
 
+  const initialCredentials = {
+    username: "",
+    password: "",
+  }
+
+
   const history =useHistory();
-  const [credentials, setCredentials] =useState({
-    username: '',
-    password: ''
-  })
+  const [credentials, setCredentials] =useState(initialCredentials)
 
 
   const handleChange = e => {
     setCredentials({
-      credentials: {
         ...credentials,
-        [e.target.name]: e.target.value
-      }
-    })
-  }
+        [e.target.name]: e.target.value,
+    });
+  };
 
-  const login = e => {
+  const handleSubmit = e => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/login", {
-        username: 'Lambda School',
-        password: 'i<3Lambd4'
-      })
+      .post("http://localhost:5000/api/login", credentials)
       .then(res => {
+        localStorage.setItem("token", res.data.payload);
         console.log(res.data.payload)
         // res.data.payload ==> localStorage
         // navigate user to the "protected" route
-        localStorage.setItem("token", res.data.payload);
+       
         history.push("/bubble-page");
       })
       .catch(err => console.log(err))
+      
     };
 
 
@@ -46,8 +46,9 @@ const Login = () => {
     <div>
       <h1>Welcome to the Bubble App!</h1>
       
-        <form onSubmit={login}>
-         
+        <form onSubmit={handleSubmit}>
+        <label htmlFor="username">Username:</label>
+
         <input
         autoComplete="off"
         type="text"
@@ -57,6 +58,8 @@ const Login = () => {
         placeholder="Lambda"
        
         />
+                <label htmlFor="password">Password:</label>
+
         <input 
          autoComplete="off"
         type="password"

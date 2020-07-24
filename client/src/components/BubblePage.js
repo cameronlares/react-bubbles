@@ -22,18 +22,6 @@ const BubblePage = () => {
 }, [location])
 
 
-// useEffect(()=>{
-//   if (location.state) {
-//     setColorList(location.state);
-//   } else {
-
-
-//  axios().get("http://localhost:5000/api/colors")
-//  .then(res => setColorList(res.data))
-//  .catch(err => console.log(err));
-// }
-// }, [location]);
-
   return (
     <>
     <h1> My Color List</h1>
